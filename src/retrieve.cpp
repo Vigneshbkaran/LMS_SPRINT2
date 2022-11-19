@@ -6,7 +6,7 @@ using namespace std;
 static int callback(void* data, int argc, char** argv, char** azColName)
 {
 	int i;
-	fprintf(stderr, "%s: ", (const char*)data);
+	fprintf(stderr, "%s", (const char*)data);
 
 	for (i = 0; i < argc; i++) {
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
@@ -17,11 +17,11 @@ static int callback(void* data, int argc, char** argv, char** azColName)
 	return 0;
 }
 
-int main(int argc, char** argv)
+int main()
 {
 	sqlite3* DB;
 	int exit = 0;
-	exit = sqlite3_open("record.db", &DB);
+	exit = sqlite3_open("books.db", &DB);
 	string data("");
 
 	string sql("SELECT * FROM RECORD;");
@@ -30,15 +30,12 @@ int main(int argc, char** argv)
 		return (-1);
 	}
 	else
-		std::cout << "Opened Database Successfully!" << std::endl;
+		std::cout << "Opened Database Successfully!\n" << std::endl;
 
 	int rc = sqlite3_exec(DB, sql.c_str(), callback, (void*)data.c_str(), NULL);
 
 	if (rc != SQLITE_OK)
 		cerr << "Error SELECT" << endl;
-	else {
-		cout << "Operation OK!" << endl;
-	}
 
 	sqlite3_close(DB);
 	return (0);
